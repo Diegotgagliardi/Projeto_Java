@@ -2,10 +2,10 @@ package br.edu.up.controller;
 
 import br.edu.up.model.Veiculo;
 import br.edu.up.model.Vaga;
-import br.edu.up.view.TelaEntrada; // Importação correta
-import br.edu.up.view.TelaSaida; // Importação correta
-import br.edu.up.model.Persistencia; // Certifique-se de que Persistencia esteja no pacote correto
-import br.edu.up.model.Relatorio; // Certifique-se de que Relatorio esteja no pacote correto
+import br.edu.up.view.TelaEntrada; 
+import br.edu.up.view.TelaSaida; 
+import br.edu.up.model.Persistencia; 
+import br.edu.up.model.Relatorio; 
 
 public class SaidaController {
     private TelaEntrada telaEntrada;
