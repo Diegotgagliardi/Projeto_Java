@@ -1,7 +1,6 @@
 package br.edu.up.view;
 
 import br.edu.up.model.Veiculo;
-
 import java.util.Scanner;
 
 public class TelaEntrada {

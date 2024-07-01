@@ -1,37 +1,27 @@
 package br.edu.up.model;
 
 public class Vaga {
-  private int vagas;
-  private double valorHora = 5.0;
-  private double valorTotal;
+    private boolean ocupada;
+    private Veiculo veiculo;
 
-  public Vaga (int vagas) {
-    this.vagas = vagas;
-  }
+    public Vaga(boolean ocupada, Veiculo veiculo) {
+        this.ocupada = ocupada;
+        this.veiculo = veiculo;
+    }
 
-  public int getVagas () {
-    return vagas;
-  }
+    public boolean isOcupada() {
+        return ocupada;
+    }
 
-  public void setVagas (int vagas) {
-    this.vagas = vagas;
-  }
+    public void setOcupada(boolean ocupada) {
+        this.ocupada = ocupada;
+    }
 
-  public double getValorHora () {
-    return valorHora;
-  }
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
 
-  public double getValorTotal () {
-    return valorTotal;
-  }
-
-  public void setValorTotal () {
-    this.valorTotal = valorTotal;
-  }
-
-  @Override
-  public String toString() {
-    return "Vaga [vagas=" + vagas + ", valorHora=" + valorHora + ", valorTotal=" + valorTotal + ", toString()="
-        + super.toString() + "]";
-  }
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
 }

@@ -1,5 +1,4 @@
 package br.edu.up;
-
 import br.edu.up.model.*;
 
 import java.io.*;
@@ -13,9 +12,26 @@ public class Persistencia {
     private static final String ARQUIVO_RELATORIOS = "relatorios.txt";
     private static final String ARQUIVO_CONFIGURACAO = "configuracao.txt";
 
-    public Persistencia() {
+    private List<Veiculo> veiculos;
+    private List<Vaga> vagas;
+    private List<Relatorio> relatorios;
+    private Configuracao configuracao;
 
+    public Persistencia() {
+        this.veiculos = carregarVeiculos();
+        this.vagas = carregarVagas();
+        this.relatorios = carregarRelatorios();
+        this.configuracao = carregarConfiguracao();
         criarArquivos();
+
+        // Criar vagas.txt com o número de vagas da configuração
+        try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_VAGAS))) {
+            for (int i = 0; i < configuracao.getNumeroVagas(); i++) {
+                writer.println("false;"); 
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void criarArquivos() {
@@ -42,6 +58,7 @@ public class Persistencia {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        veiculos.add(veiculo);
     }
 
     public List<Veiculo> carregarVeiculos() {
@@ -68,6 +85,7 @@ public class Persistencia {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        vagas.add(vaga);
     }
 
     public List<Vaga> carregarVagas() {
@@ -77,7 +95,8 @@ public class Persistencia {
             while ((line = reader.readLine()) != null) {
                 String[] dados = line.split(";");
                 boolean ocupada = Boolean.parseBoolean(dados[0]);
-                String placa = dados[1];
+                String placa = dados.length > 1 ? dados[1] : ""; 
+
                 Veiculo veiculo = placa.isEmpty() ? null : buscarVeiculoPorPlaca(placa);
                 Vaga vaga = new Vaga(ocupada, veiculo);
                 vagas.add(vaga);
@@ -88,7 +107,12 @@ public class Persistencia {
         return vagas;
     }
 
-    private Veiculo buscarVeiculoPorPlaca(String placa) {
+    public Veiculo buscarVeiculoPorPlaca(String placa) {
+        for (Veiculo veiculo : veiculos) {
+            if (veiculo.getPlaca().equals(placa)) {
+                return veiculo;
+            }
+        }
         return null;
     }
 
@@ -98,6 +122,7 @@ public class Persistencia {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        relatorios.add(relatorio);
     }
 
     public List<Relatorio> carregarRelatorios() {
@@ -127,16 +152,48 @@ public class Persistencia {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.configuracao = configuracao;
     }
 
     public Configuracao carregarConfiguracao() {
         try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_CONFIGURACAO))) {
-            double valorHora = Double.parseDouble(reader.readLine());
-            int numeroVagas = Integer.parseInt(reader.readLine());
+            String valorHoraStr = reader.readLine();
+            String numeroVagasStr = reader.readLine();
+
+            // Verificar se as linhas foram lidas corretamente
+            if (valorHoraStr == null || numeroVagasStr == null) {
+                System.err.println("Arquivo 'configuracao.txt' inválido! Usando valores padrão.");
+                return new Configuracao(5.0, 10); 
+            }
+
+            double valorHora = Double.parseDouble(valorHoraStr);
+            int numeroVagas = Integer.parseInt(numeroVagasStr);
             return new Configuracao(valorHora, numeroVagas);
         } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
             return null; 
         }
+    }
+
+    public Vaga getVagaVeiculo(Veiculo veiculo) {
+        for (Vaga vaga : vagas) {
+            if (vaga.getVeiculo() != null && vaga.getVeiculo().getPlaca().equals(veiculo.getPlaca())) {
+                return vaga;
+            }
+        }
+        return null;
+    }
+
+    public Vaga getProximaVagaLivre() {
+        for (Vaga vaga : vagas) {
+            if (!vaga.isOcupada()) { 
+                return vaga;
+            }
+        }
+        return null;
+    }
+
+    public void removerVeiculo(Veiculo veiculo) {
+        veiculos.remove(veiculo);
     }
 }

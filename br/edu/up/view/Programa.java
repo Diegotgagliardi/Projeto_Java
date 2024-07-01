@@ -1,7 +1,0 @@
-package br.edu.up.view;
-
-public class Programa {
-  public static void main(String[] args) {
-    System.out.println("Hello Word!");
-  }
-}

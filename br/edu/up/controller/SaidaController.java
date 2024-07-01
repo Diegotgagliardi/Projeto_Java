@@ -4,7 +4,7 @@ import br.edu.up.model.Veiculo;
 import br.edu.up.model.Vaga;
 import br.edu.up.view.TelaEntrada; 
 import br.edu.up.view.TelaSaida; 
-import br.edu.up.model.Persistencia; 
+import br.edu.up.Persistencia; 
 import br.edu.up.model.Relatorio; 
 
 public class SaidaController {
@@ -30,6 +30,7 @@ public class SaidaController {
         Relatorio relatorio = new Relatorio(veiculo, "Saída");
 
         vaga.setVeiculo(null);
+        vaga.setOcupada(false); 
 
         persistencia.removerVeiculo(veiculo);
         persistencia.salvarVaga(vaga);

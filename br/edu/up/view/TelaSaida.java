@@ -13,7 +13,7 @@ public class TelaSaida {
     public Veiculo obterInformacoesVeiculo() {
         System.out.println("Informe a placa do veículo que está saindo: ");
         String placa = scanner.nextLine();
-        return new Veiculo( placa, null, null, null);
+        return new Veiculo(null, placa, null); 
     }
 
     public void exibirMensagemErro(String mensagem) {

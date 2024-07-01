@@ -33,6 +33,7 @@ public class EntradaController {
 
         // Associar veículo à vaga
         vaga.setVeiculo(veiculo);
+        vaga.setOcupada(true); 
 
         // Salvar informações em arquivos
         persistencia.salvarVeiculo(veiculo);
